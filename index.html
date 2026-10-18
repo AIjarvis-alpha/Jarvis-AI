@@ -1,1 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>JARVIS AI | Anime Edition</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #080b16;
+    color: #f2f5ff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #252b49;
+    background: #0c1020;
+}
+
+.logo {
+    font-size: 29px;
+    font-weight: bold;
+    color: #6beaff;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px #00bfff;
+}
+
+.subtitle {
+    color: #a8b5d8;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.container {
+    max-width: 750px;
+    margin: auto;
+    padding: 20px;
+}
+
+.orb {
+    width: 115px;
+    height: 115px;
+    margin: 25px auto;
+    border-radius: 50%;
+    border: 2px solid #54eaff;
+    box-shadow: 0 0 25px #008cff, inset 0 0 20px #008cff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 3s infinite;
+}
+
+.orb span {
+    font-size: 38px;
+    color: #78efff;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.description {
+    text-align: center;
+    color: #9daacb;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.chat {
+    background: #10162a;
+    border: 1px solid #293557;
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.messages {
+    height: 290px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.message {
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 90%;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.bot {
+    align-self: flex-start;
+    background: #192641;
+    border: 1px solid #2c476d;
+}
+
+.user {
+    align-self: flex-end;
+    background: #075d83;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+}
+
+input {
+    min-width: 0;
+    flex: 1;
+    background: #080d1b;
+    border: 1px solid #33415e;
+    color: white;
+    padding: 13px;
+    border-radius: 10px;
+    outline: none;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.send {
+    background: #5ce5ff;
+    color: #06101a;
+}
+
+.voice {
+    background: #242f4d;
+    color: white;
+    margin-top: 10px;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #8290b5;
+    font-size: 12px;
+}
+
+.status {
+    text-align: center;
+    color: #69e7ff;
+    font-size: 12px;
+    margin: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">JARVIS AI</div>
+    <div class="subtitle">ANIME EDITION • PERSONAL AI ASSISTANT</div>
+</header>
+
+<main class="container">
+
+    <div class="orb"><span>✦</span></div>
+
+    <h2>Your AI Companion</h2>
+
+    <p class="description">
+        Welcome, Sathuro!<br>
+        Your futuristic assistant is ready.
+    </p>
+
+    <div class="chat">
+
+        <div class="messages" id="messages">
+            <div class="message bot">
+                Hello, Sathuro! ⚡
+
+                I am JARVIS AI.
+
+                Try asking me to introduce myself,
+                tell you a joke, or help with a calculation.
+            </div>
+        </div>
+
+        <div class="input-row">
+            <input
+                id="userInput"
+                type="text"
+                placeholder="Ask JARVIS something..."
+                autocomplete="off"
+            >
+            <button class="send" id="sendButton">Send</button>
+        </div>
+
+        <button class="voice" id="voiceButton">
+            🎤 Speak to JARVIS
+        </button>
+
+        <div class="status" id="status">
+            SYSTEM ONLINE • DEMO MODE
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    JARVIS AI • Created by Sathuro
+</footer>
+
+<script>
+const messages = document.getElementById("messages");
+const input = document.getElementById("userInput");
+const statusText = document.getElementById("status");
+
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "message " + type;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+}
+
+function getReply(text) {
+    const q = text.toLowerCase().trim();
+
+    if (q.includes("hello") || q.includes("hi")) {
+        return "Hello, Sathuro! 😎 JARVIS AI is ready to assist you.";
+    }
+
+    if (q.includes("your name") || q.includes("who are you")) {
+        return "I am JARVIS AI, your personal assistant project! ⚡";
+    }
+
+    if (q.includes("joke")) {
+        return "Why did the programmer quit? Because they didn't get arrays! 😂";
+    }
+
+    if (q.includes("anime")) {
+        return "Anime mode activated! 🎌 Which anime are we discussing today?";
+    }
+
+    if (q.includes("time")) {
+        return "Your device time is " + new Date().toLocaleTimeString() + ".";
+    }
+
+    if (q.includes("date")) {
+        return "Today's date is " + new Date().toLocaleDateString() + ".";
+    }
+
+    if (q.includes("calculate") || /^[\d\s+\-*/().]+$/.test(q)) {
+        return "I can help with calculations! For now, this demo doesn't have a full calculator engine.";
+    }
+
+    if (q.includes("help")) {
+        return "I can greet you, tell a joke, discuss anime, and show your device's date and time. A real AI model is not connected yet.";
+    }
+
+    return "I received your message! 🤖 My current demo brain uses predefined replies. We'll connect a real AI model in the next stage.";
+}
+
+function speak(text) {
+    if (!("speechSynthesis" in window)) {
+        statusText.textContent = "Speech output is not supported in this browser.";
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-IN";
+    utterance.rate = 1;
+    window.speechSynthesis.speak(utterance);
+}
+
+function sendMessage() {
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    const reply = getReply(text);
+
+    setTimeout(() => {
+        addMessage(reply, "bot");
+        statusText.textContent = "SYSTEM ONLINE • DEMO MODE";
+    }, 350);
+}
+
+document.getElementById("sendButton").addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") sendMessage();
+});
+
+document.getElementById("voiceButton").addEventListener("click", function() {
+    const Recognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!Recognition) {
+        statusText.textContent = "Voice input is not supported in this browser.";
+        return;
+    }
+
+    const recognition = new Recognition();
+    recognition.lang = "en-IN";
+    recognition.interimResults = false;
+
+    recognition.onstart = function() {
+        statusText.textContent = "LISTENING...";
+    };
+
+    recognition.onresult = function(event) {
+        input.value = event.results[0][0].transcript;
+        sendMessage();
+    };
+
+    recognition.onerror = function() {
+        statusText.textContent = "Voice error. Check microphone permission.";
+    };
+
+    recognition.onend = function() {
+        if (statusText.textContent === "LISTENING...") {
+            statusText.textContent = "SYSTEM ONLINE • DEMO MODE";
+        }
+    };
+
+    recognition.start();
+});
+</script>
+
+</body>
+  </html>
